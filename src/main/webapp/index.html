@@ -2,25 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
-    <title>My First Web App</title>
+    <title>My First Web App - Login</title>
   </head>
-
   <body>
-    <h1>Welcome to this simple web application !</h1>
-
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Services:</td>        
-      </tr>
-      <tr>
-        <td><a href='/rest/utils/hello'>Say hello !</a></td><td>(greetings)</td>
-      </tr>
-      <tr>
-        <td><a href='/rest/utils/time'>What time is it?</a></td><td>(see server time)</td>
-      </tr>
-    </table>
+    <h1 style="text-align:center;">Login</h1>
+    <div style="width:300px; margin:auto;">
+      <form action="/login" method="post">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
   </body>
-  <footer>
-  	Copyright: FCT NOVA, APC-PEI  2023/2024
+  <footer style="text-align:center;">
+    Copyright: FCT NOVA, APC-PEI  2023/2024
   </footer>
 </html>

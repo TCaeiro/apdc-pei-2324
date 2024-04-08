@@ -1,15 +1,21 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
+import java.io.IOException;
+import java.net.URI;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 
@@ -28,16 +34,23 @@ public class ComputationResource {
 	@GET
 	@Path("/hello")
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response hello() {
-		LOG.fine("Saying hello!!");
-		return Response.ok().entity("Hello apdc-pei-2324 class! I hope you are having a fine day.").build();
+	public Response hello() throws IOException{
+		try {
+			throw new IOException("UPS");
+		} catch (Exception e) {
+			LOG.log(Level.SEVERE, "Exception on Method /hello", e);
+			return Response.temporaryRedirect(URI.create("/error/500.html")).build();
+		}
 	}
 	
-	@GET
+	/*@GET
 	@Path("/time")
-	public Response getCurrentTime() {
-
-		LOG.fine("Replying to date request.");
+	public Response getCurrentTime(@CookieParam("session::apdc") Cookie cookie) {
+		if(!LoginResource.checkPermissions(cookie, LoginResource.ADMIN)) {
+			return Response.status(Status.FORBIDDEN).entity("Incorrect username or password.").build();
+		}
+		
 		return Response.ok().entity(g.toJson(fmt.format(new Date()))).build();
-	}
+	}*/
+	
 }

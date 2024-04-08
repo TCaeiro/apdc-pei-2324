@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log Out</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #d3caab; /* Light grey background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 24px;
+            color: #3d3c3c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="message" id="logoutMessage">Logging out...</div>
+
+<script>
+    window.addEventListener('load', function () {
+        fetch('/rest/logout', { method: 'POST' })
+            .then(response => {
+                if(response.ok) {
+                    document.getElementById('logoutMessage').textContent = 'Até à próxima';
+                } else {
+                    document.getElementById('logoutMessage').textContent = 'Houve um problema ao fazer logout.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('logoutMessage').textContent = 'Erro de conexão.';
+            });
+    });
+</script>
+
+</body>
+</html>

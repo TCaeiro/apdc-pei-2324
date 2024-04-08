@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d7a879;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .center {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .login-box {
+            margin-bottom: 20px;
+        }
+
+        .login-box input[type="text"], .login-box input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .login-box input[type="button"] {
+            background-color: #dc8327;
+            color: #ffffff;
+            cursor: pointer;
+            border: none;
+        }
+
+        .login-box input[type="button"]:hover {
+            background-color: #ff7300;
+        }
+
+        label {
+            display: block;
+        }
+
+        #responseMessage {
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+
+<div class="center">
+    <form id="loginForm">
+        <div class="login-box">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="login-box">
+            <label for="newRole">New Role:</label>
+            <input type="text" id="newRole" name="newRole" placeholder="Enter new role" required>
+        </div>
+        <div class="login-box">
+            <input type="button" id="submitBtn" value="Submit">
+        </div>
+    </form>
+    <p id="responseMessage"></p>
+</div>
+
+<script>
+    document.getElementById('submitBtn').onclick = function(event) {
+        const username = document.getElementById('username').value;
+        const newRole = document.getElementById('newRole').value;
+
+        const data = { username, newRole };
+
+        fetch('/rest/changeRole', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text().then(text => displayMessage("Success: " + text));
+                } else {
+                    return response.text().then(text => displayMessage("Error: " + text));
+                }
+            })
+            .catch(error => displayMessage("Fetch Error: " + error.message));
+    };
+
+    function displayMessage(message) {
+        document.getElementById('responseMessage').innerText = message;
+    }
+</script>
+
+</body>
+</html>

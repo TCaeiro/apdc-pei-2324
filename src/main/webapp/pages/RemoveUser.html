@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove User</title>
+</head>
+<body>
+<h2>Remove User</h2>
+<label for="username">Username:</label>
+<input type="text" id="username" name="username">
+<button id="removeUserButton">Remove User</button>
+<div id="message"></div> <!-- Elemento para exibir mensagens de erro ou sucesso -->
+
+<script>
+    document.getElementById("removeUserButton").addEventListener("click", function() {
+        const username = document.getElementById("username").value;
+        if (!username) {
+            document.getElementById("message").textContent = "Please enter a username.";
+            return;
+        }
+
+        const data = { username: username };
+
+        fetch("/rest/removeUser", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(data),
+            credentials: 'include' // Ensures cookies are sent
+        })
+            .then(response => {
+                if(response.ok) {
+                    document.getElementById("message").textContent = 'User account removed successfully.';
+                } else {
+                    response.text().then(text => {
+                        document.getElementById("message").textContent = text || 'Failed to remove user account.';
+                    });
+                }
+            })
+            .catch(error => {
+                document.getElementById("message").textContent = error.message || "An error occurred while attempting to remove the user account.";
+            });
+    });
+</script>
+</body>
+</html>

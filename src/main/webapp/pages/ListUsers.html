@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #d7d7d7; /* Cor de fundo suave */
+            font-family: Arial, sans-serif;
+            color: #333; /* Cor do texto escuro para contraste suave */
+        }
+        #userList {
+            display: inline-block;
+            text-align: left;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 15px; /* Borda arredondada */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra sutil */
+            background-color: #dca95e; /* Fundo branco para a lista */
+            max-width: 80%;
+            white-space: pre-wrap; /* Preservar quebras de linha e espaços */
+        }
+
+        h2 {
+            color: #363232; /* Cor do título */
+        }
+    </style>
+</head>
+<body>
+
+
+<h2>User List</h2>
+
+<div id="userList"></div>
+
+<script>
+    function fetchUserList() {
+        fetch('/rest/listUsers', {
+            method: 'GET',
+            credentials: 'include' // Ensures cookies are sent with the request, important for session handling
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    return Promise.reject('Failed to fetch user list: ' + response.statusText);
+                }
+            })
+            .then(userList => {
+                document.getElementById('userList').innerHTML = `<pre>${userList}</pre>`;
+            })
+            .catch(error => {
+                document.getElementById('userList').textContent = error;
+            });
+    }
+
+    // Execute the fetch operation as soon as the page loads
+    window.onload = fetchUserList;
+</script>
+
+</body>
+</html>

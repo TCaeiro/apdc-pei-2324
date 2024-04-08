@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+    <style>
+        body {
+            background-color: #bb9e86; /* Tom de cinza suave */
+            font-family: 'Arial', sans-serif; /* Fonte suave */
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            color: #333; /* Cor do texto */
+        }
+
+        .login-box {
+            background: #FFFFFF;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            border-radius: 20px; /* Borda arredondada */
+            padding: 25px;
+            margin: 10px;
+        }
+
+        .login-box label {
+            display: block;
+            color: #5e5d5d; /* Cor mais suave para o texto do label */
+            margin-bottom: 5px;
+        }
+
+        .login-box input[type="text"],
+        .login-box input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #000; /* Adicionando contorno preto */
+            background-color: #eee; /* Fundo dos inputs */
+            border-radius: 10px; /* Inputs arredondados */
+            box-sizing: border-box;
+            transition: background-color 0.3s;
+        }
+
+        .login-box input[type="text"]:focus,
+        .login-box input[type="password"]:focus {
+            background-color: #ffffff; /* Mudança de cor ao focar */
+            outline: none;
+        }
+
+        .login-box input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #dc9a0d; /* Cor do botão */
+            color: #ffffff;
+            border-radius: 10px; /* Borda arredondada */
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-box input[type="submit"]:hover {
+            background-color: #e89a15; /* Efeito hover */
+        }
+
+        a {
+            color: #f5f5f5; /* Cor que combine com o botão */
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #e89a15;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="center">
+    <form action="/login" method="POST" onsubmit="handleLogin(event)">
+        <div class="login-box">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="login-box">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <div class="login-box">
+            <input type="submit" value="Login">
+        </div>
+    </form>
+    <a href="#" onclick="redirectToRegister()">Register</a>
+</div>
+
+<script>
+    async function handleLogin(event) {
+        event.preventDefault(); // Previne o comportamento padrão do formulário
+
+        const formData = new FormData(event.target); // Cria um FormData baseado no formulário
+        const data = Object.fromEntries(formData.entries()); // Converte FormData em um objeto JSON
+
+        try {
+            // Faz o pedido fetch ao backend
+            const response = await fetch('/rest/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data), // Converte os dados do formulário para JSON
+            });
+
+            if (response.ok) {
+                // Se o login for bem-sucedido, redireciona para home.html
+                redirectToHome();
+            } else {
+                // Se houver um erro, tenta ler a mensagem de erro do corpo da resposta
+                const errorMessage = await response.text();
+                alert(errorMessage); // Mostra a mensagem de erro específica
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert(error.message); // Mostra mensagem de erro do catch, se aplicável
+        }
+    }
+
+    function redirectToHome() {
+        // Redireciona para home.html
+        window.location.href = "home.html";
+    }
+
+    function redirectToRegister() {
+        // Redireciona para o link de registro completo
+        window.location.href = "https://trusty-field-417622.oa.r.appspot.com/pages/register.html";
+    }
+</script>
+
+</body>
+</html>

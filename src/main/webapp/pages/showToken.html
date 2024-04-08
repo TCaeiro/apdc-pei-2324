@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Token Data</title>
+    <style>
+        body {
+            background-color: #B8AB91; /* Cor de fundo leve */
+            font-family: 'Arial', sans-serif; /* Fonte suave */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            color: #333; /* Cor do texto */
+        }
+
+        h1 {
+            margin: 0 0 20px 0; /* Espaço abaixo do título */
+            font-size: 2.5em; /* Tamanho do título */
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.7); /* Adicionando contorno branco */
+        }
+
+        #tokenData {
+            background: #FFFFFF;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            border-radius: 20px; /* Borda arredondada */
+            padding: 25px;
+            width: 80%; /* Largura do retângulo */
+            max-width: 600px; /* Largura máxima do retângulo */
+            text-align: center; /* Alinhamento do texto */
+            word-wrap: break-word; /* Quebra de linha para textos longos */
+        }
+
+        /* Responsividade para telas menores */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em; /* Tamanho menor do título para telas pequenas */
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>Token Data</h1>
+<pre id="tokenData">Fetching token data...</pre>
+
+<script>
+    async function fetchTokenData() {
+        try {
+            // Realiza a requisição ao endpoint
+            const response = await fetch('/rest/tokenData', {
+                method: 'GET',
+                credentials: 'include' // Importante para enviar cookies em requisições cross-origin
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch token data: ' + response.statusText);
+            }
+
+            // Lê a resposta como texto
+            const data = await response.text();
+
+            // Exibe a resposta no elemento 'pre'
+            document.getElementById('tokenData').textContent = data;
+        } catch (error) {
+            console.error('Error fetching token data:', error);
+            document.getElementById('tokenData').textContent = 'Error fetching token data. Please check the console for more details.';
+        }
+    }
+
+    // Chama a função ao carregar a página
+    fetchTokenData();
+</script>
+</body>
+</html>

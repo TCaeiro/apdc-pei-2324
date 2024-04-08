@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #d3caab; /* Light grey background */
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin: 10px; /* Adds space between buttons */
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px; /* Rounded borders for the button */
+            border: none; /* No border for a cleaner look */
+            background-color: #d79353; /* Background color for the button */
+            color: #3d3c3c; /* Text color for the button */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+            transition: background-color 0.1s ease; /* Smooth transition for hover effect */
+        }
+
+        .button:hover {
+            background-color: #e58248; /* Darker color on hover for visual feedback */
+        }
+
+        /* Estilo para o botão Log Out */
+        .logout-button {
+            background-color: #d9534f; /* Red background for the Log Out button */
+        }
+
+        .logout-button:hover {
+            background-color: #c9302c; /* Darker red on hover for visual feedback */
+        }
+    </style>
+</head>
+<body>
+
+<div class="center">
+    <button class="button" onclick="window.location.href='showToken.html'">Show Token</button>
+    <button class="button" onclick="window.location.href='changePassword.html'">Change Password</button>
+    <!-- Botão Change User's State -->
+    <button class="button" onclick="window.location.href='ChangeState.html'">Change User's State</button>
+    <!-- Botão Remove User -->
+    <button class="button" onclick="window.location.href='RemoveUser.html'">Remove User</button>
+    <!-- Botão List Users -->
+    <button class="button" onclick="window.location.href='ListUsers.html'">List Users</button>
+    <!-- Botão Change User's Attributes -->
+    <button class="button" onclick="window.location.href='ChangeAttributes.html'">Change User's Attributes</button>
+    <!-- Botão Change Roles -->
+    <button class="button" onclick="window.location.href='ChangeRoles.html'">Change Roles</button>
+    <!-- Botão Log Out -->
+    <button class="button logout-button" onclick="window.location.href='LogOut.html'">Log Out</button>
+</div>
+
+</body>
+</html>

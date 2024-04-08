@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Change Attributes</title>
+    <style>
+        .special-fields {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .special-note {
+            margin-top: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Change User Attributes</h2>
+<form id="changeAttributesForm">
+    <div><label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required></div>
+
+    <div class="special-note">USER users can't change these attributes.</div>
+
+    <div class="special-fields"><label for="state">State:</label><br>
+        <input type="text" id="state" name="state"></div>
+
+    <div class="special-fields"><label for="role">User Role:</label><br>
+        <input type="text" id="role" name="role"></div>
+
+    <div class="special-fields"><label for="nome">Name:</label><br>
+        <input type="text" id="nome" name="nome"></div>
+
+    <div class="special-fields"><label for="gmail">Email:</label><br>
+        <input type="email" id="gmail" name="gmail"></div>
+
+    <div><label for="phone">Phone:</label><br>
+        <input type="text" id="phone" name="phone"></div>
+
+    <div><label for="perfil">Profile:</label><br>
+        <input type="text" id="perfil" name="perfil"></div>
+
+    <div><label for="ocupacao">Occupation:</label><br>
+        <input type="text" id="ocupacao" name="ocupacao"></div>
+
+    <div><label for="localTrabalho">Workplace:</label><br>
+        <input type="text" id="localTrabalho" name="localTrabalho"></div>
+
+    <div><label for="morada">Address:</label><br>
+        <input type="text" id="morada" name="morada"></div>
+
+    <div><label for="cp">Postal Code:</label><br>
+        <input type="text" id="cp" name="cp"></div>
+
+    <div><label for="nif">Tax Identification Number:</label><br>
+        <input type="text" id="nif" name="nif"></div>
+
+    <div><label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"></div>
+
+    <br>
+    <input type="button" value="Submit" onclick="changeAttributes()">
+</form>
+
+<p id="responseMessage"></p>
+
+<script>
+    function changeAttributes() {
+        const form = document.getElementById('changeAttributesForm');
+        const formData = new FormData(form);
+        // Filtra campos vazios do FormData
+        const data = Object.fromEntries(Array.from(formData.entries()).filter(([_, value]) => value.trim() !== ''));
+
+        fetch('/rest/ChangeAtr', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text().then(text => displayMessage("Success: " + text));
+                } else {
+                    const contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        // Se a resposta é JSON, deveríamos usar response.json() para parsear corretamente
+                        // mas vamos manter consistente com seu cenário e tratar tudo como texto
+                        return response.text().then(text => displayMessage("Error: " + text));
+                    } else {
+                        return response.text().then(text => displayMessage("Error: " + text));
+                    }
+                }
+            })
+            .catch(error => displayMessage("Fetch Error: " + error.message));
+
+    }
+
+
+
+    function displayMessage(message) {
+        document.getElementById('responseMessage').innerText = message;
+    }
+</script>
+
+</body>
+</html>
